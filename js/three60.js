@@ -164,9 +164,10 @@ function three60() {
 	}
 }
 
-var Three60;
+
+var iPods;
 
 $(document).ready(function() {
-	Three60 = new three60();
-	Three60.init('three60', 'images/ipod/Seq_v04_640x378_{i}.jpg', 72);
+	iPods = new three60();
+	iPods.init('ipods', 'images/ipod/Seq_v04_640x378_{i}.jpg', 72);
 });
