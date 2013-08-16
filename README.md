@@ -1,6 +1,6 @@
 three60()
 =======
-A super simple Javascript method that creates a nice spinneable 360 with inertia. It works fine on mobile and desktop.
+A super simple Javascript method that creates a nice spinnable 360 with inertia. It works fine on mobile and desktop.
 
 ### Usage
 #### HTML
