@@ -1,4 +1,4 @@
-three60.js
+three60()
 =======
 A super simple Javascript method that creates a nice spinneable 360 with inertia. It works fine on mobile and desktop.
 
