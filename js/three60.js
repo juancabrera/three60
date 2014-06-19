@@ -19,7 +19,7 @@ function three60() {
 
 	// initialize
 	this.init = function(container, fileName, totalFrames) {
-		self.container = $('#' + container);
+		self.container = document.querySelector('#' + container);
 		self.containerObj = document.getElementById(container);
 		self.fileName = fileName;
 		self.totalFrames = totalFrames;
@@ -51,9 +51,13 @@ function three60() {
 	}
 
 	this.loadComplete = function() {
-		self.container.find('.loading').remove();
+		self.container.querySelector(".loading").className = "hide"
 		for (i = 1; i <= self.totalFrames; i++) {
-			self.container.prepend('<img src="' + self.fileName.replace('{i}', i) + '" style="' + (i == 1 ? "display: block;" : "display: none;") + '" data-index="' + i + '">');
+			imgFrame = document.createElement('img');
+			imgFrame.setAttribute('src', self.fileName.replace('{i}', i));
+			imgFrame.setAttribute('style', i == 1 ? "display: block;" : "display: none;");
+			imgFrame.setAttribute('data-index', i);
+			self.container.appendChild(imgFrame);
 		}
 		self.attachHandlers();
 	}
@@ -83,22 +87,24 @@ function three60() {
 		}
 
 		// handlers for desktop
-		self.container.mousedown(function(e) {
+		self.container.addEventListener('mousedown', function(e) {
 			e.preventDefault();
 			self.down(e.screenX);
 		});
 
-		self.container.mousemove(function(e) {
+		self.container.addEventListener('mousemove', function(e) {
 			e.preventDefault();
 			self.move(e.screenX);
 		});
 
-		self.container.mouseup(function(e) {
+		self.container.addEventListener('mouseup', function(e) {
 			e.preventDefault();
 			self.up();
 		});
 
-		self.container.mouseleave(function(e) {
+		self.container.addEventListener('mouseout', function(e) {
+			var relatedTarget = ('relatedTarget' in e? e.relatedTarget : e.toElement);
+			if (relatedTarget.parentNode.nodeType == 1) return false;
 			e.preventDefault();
 			self.up();
 		});
@@ -159,14 +165,14 @@ function three60() {
 	}
 
 	self.updateFrames = function() {
-		self.container.find('img[data-index="' + self.lastFrameIndex + '"]').css({'display':'none'});
-		self.container.find('img[data-index="' + self.frameIndex + '"]').css({'display':'block'});
+		self.container.querySelector('img[data-index="' + self.lastFrameIndex + '"]').style.display = "none"
+		self.container.querySelector('img[data-index="' + self.frameIndex + '"]').style.display = "block"
 	}
 }
 
 var iPods;
 
-$(document).ready(function() {
+document.addEventListener("DOMContentLoaded", function() {
 	iPods = new three60();
 	iPods.init('ipods', 'images/ipod/Seq_v04_640x378_{i}.jpg', 72);
-});
+}, false);

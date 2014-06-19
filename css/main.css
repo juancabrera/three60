@@ -1,4 +1,5 @@
 .loading {
+	display: block;
 	width: 32px;
 	height: 32px;
 	position: absolute;
@@ -6,6 +7,10 @@
 	left: 50%;
 	margin: -16px 0 0 -16px;
 	background: url(../images/loading.gif) no-repeat center center;
+}
+
+.loading.hide {
+	display: none;
 }
 
 #ipods {
