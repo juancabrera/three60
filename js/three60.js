@@ -16,6 +16,7 @@ function three60() {
 	this.frameSpeed			= 0;
 	this.timeInertia		= 0;
 	this.inertiaDuration	= 0;
+	this.imageObjects		= Array();
 
 	// initialize
 	this.init = function(container, fileName, totalFrames) {
@@ -43,10 +44,13 @@ function three60() {
 
 	this.loadFrames = function() {
 		for (i = 1; i <= self.totalFrames; i++) {
-			$('<img/>').data('index', i).attr('src', self.fileName.replace('{i}', i)).load(function() {
+			self.imageObjects [i] = new Image();
+			self.imageObjects[i].src = self.fileName.replace('{i}', i);
+			console.log(i, self.fileName.replace('{i}', i));
+			self.imageObjects[i].onload = function() {
 				self.framesLoaded++;
 				if (self.framesLoaded == self.totalFrames) self.loadComplete();
-			});
+			}
 		}
 	}
 
