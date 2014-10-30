@@ -173,10 +173,3 @@ function three60() {
 		self.container.querySelector('img[data-index="' + self.frameIndex + '"]').style.display = "block"
 	}
 }
-
-var iPods;
-
-document.addEventListener("DOMContentLoaded", function() {
-	iPods = new three60();
-	iPods.init('ipods', 'images/ipod/Seq_v04_640x378_{i}.jpg', 72);
-}, false);
