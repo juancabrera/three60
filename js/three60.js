@@ -1,22 +1,23 @@
 function three60() {
 	var self = this;
 
-	this.debug 				= true;
-	this.container 			= null;
-	this.containerObj		= null;
-	this.fileName			= null;
-	this.totalFrames		= null;
-	this.framesLoaded		= 0;
-	this.frameIndex			= 1;
-	this.lastFrameIndex		= 1;
-	this.dragging			= false;
-	this.lastScreenX		= 0
-	this.inertiaInterval	= null;
-	this.direction			= null;
-	this.frameSpeed			= 0;
-	this.timeInertia		= 0;
-	this.inertiaDuration	= 0;
-	this.imageObjects		= Array();
+	this.debug            = true;
+	this.container        = null;
+	this.containerObj     = null;
+	this.containerName    = null;
+	this.fileName         = null;
+	this.totalFrames      = null;
+	this.framesLoaded     = 0;
+	this.frameIndex       = 1;
+	this.lastFrameIndex   = 1;
+	this.dragging         = false;
+	this.lastScreenX      = 0;
+	this.inertiaInterval  = null;
+	this.direction        = null;
+	this.frameSpeed       = 0;
+	this.timeInertia      = 0;
+	this.inertiaDuration  = 0;
+	this.imageObjects     = Array();
 
 	// initialize
 	this.init = function(container, fileName, totalFrames) {
@@ -24,6 +25,7 @@ function three60() {
 		self.containerObj = document.getElementById(container);
 		self.fileName = fileName;
 		self.totalFrames = totalFrames;
+		self.containerName = container;
 
 		Math.easeOutQuad = function (t, b, c, d) {
 			return -c *(t/=d)*(t-2) + b;
@@ -43,10 +45,9 @@ function three60() {
 	}
 
 	this.loadFrames = function() {
-		for (i = 1; i <= self.totalFrames; i++) {
+		for (var i = 1; i <= self.totalFrames; i++) {
 			self.imageObjects [i] = new Image();
 			self.imageObjects[i].src = self.fileName.replace('{i}', i);
-			console.log(i, self.fileName.replace('{i}', i));
 			self.imageObjects[i].onload = function() {
 				self.framesLoaded++;
 				if (self.framesLoaded == self.totalFrames) self.loadComplete();
@@ -55,8 +56,10 @@ function three60() {
 	}
 
 	this.loadComplete = function() {
+		var imgFrame;
+		
 		self.container.querySelector(".loading").className = "hide"
-		for (i = 1; i <= self.totalFrames; i++) {
+		for (var i = 1; i <= self.totalFrames; i++) {
 			imgFrame = document.createElement('img');
 			imgFrame.setAttribute('src', self.fileName.replace('{i}', i));
 			imgFrame.setAttribute('style', i == 1 ? "display: block;" : "display: none;");
@@ -107,9 +110,10 @@ function three60() {
 		});
 
 		self.container.addEventListener('mouseout', function(e) {
-			var relatedTarget = ('relatedTarget' in e? e.relatedTarget : e.toElement);
-			if (relatedTarget.parentNode.nodeType == 1) return false;
 			e.preventDefault();
+
+			var relatedTarget = ('relatedTarget' in e? e.relatedTarget : e.toElement);
+			if (relatedTarget.nodeName == "IMG" || relatedTarget.id == self.containerName) return false;
 			self.up();
 		});
 	}
@@ -142,7 +146,7 @@ function three60() {
 
 	this.up = function() {
 		self.dragging = false;
-		if (self.frameSpeed > 0) self.inertia();
+		if (self.frameSpeed > 1) self.inertia();
 	}
 
 	this.inertia = function() {
