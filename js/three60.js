@@ -18,6 +18,7 @@ function three60() {
 	this.timeInertia      = 0;
 	this.inertiaDuration  = 0;
 	this.imageObjects     = Array();
+	this.RAFrunning       = false;
 
 	// initialize
 	this.init = function(container, fileName, totalFrames) {
@@ -40,6 +41,17 @@ function three60() {
 			t--;
 			return -c * (t*t*t*t - 1) + b;
 		}
+
+		window.requestAnimFrame = (function() {
+			return window.requestAnimationFrame ||
+			window.webkitRequestAnimationFrame ||
+			window.mozRequestAnimationFrame ||
+			window.oRequestAnimationFrame ||
+			window.msRequestAnimationFrame ||
+			function(callback) {
+				window.setTimeout(callback, 1000 / 60);
+			};
+		})();
 
 		self.loadFrames();
 	}
@@ -150,26 +162,29 @@ function three60() {
 	}
 
 	this.inertia = function() {
-		self.stopInertia();
 		self.inertiaDuration = self.frameSpeed;
-		self.inertiaInterval = setInterval(function() {
-			self.timeInertia += 0.1;
 
-			self.lastFrameIndex = self.frameIndex;
-			if (self.direction == "right") self.frameIndex = self.frameIndex + self.frameSpeed; else self.frameIndex = self.frameIndex - self.frameSpeed;
-			if (self.frameIndex > self.totalFrames) self.frameIndex = 1;
-			if (self.frameIndex < 1) self.frameIndex = self.totalFrames;
-			
-			self.updateFrames();
+		if (!self.RAFrunning) requestAnimFrame(self.inertiaRAF);
+		this.RAFrunning = true;
+	}
 
-			self.frameSpeed = self.inertiaDuration - parseInt(Math.easeOutQuad(self.timeInertia, 0, self.inertiaDuration, self.inertiaDuration));
-			if (self.timeInertia > self.inertiaDuration || self.frameSpeed < 1) self.stopInertia();
-		}, 1000 / 60);
+	this.inertiaRAF = function() {
+		self.timeInertia += 0.1;
+
+		self.lastFrameIndex = self.frameIndex;
+		if (self.direction == "right") self.frameIndex = self.frameIndex + self.frameSpeed; else self.frameIndex = self.frameIndex - self.frameSpeed;
+		if (self.frameIndex > self.totalFrames) self.frameIndex = 1;
+		if (self.frameIndex < 1) self.frameIndex = self.totalFrames;
+		
+		self.updateFrames();
+
+		self.frameSpeed = self.inertiaDuration - parseInt(Math.easeOutQuad(self.timeInertia, 0, self.inertiaDuration, self.inertiaDuration));
+		if (self.timeInertia > self.inertiaDuration || self.frameSpeed < 1) self.stopInertia(); else requestAnimFrame(self.inertiaRAF);    
 	}
 
 	this.stopInertia = function() {
 		self.timeInertia = 0;
-		clearInterval(self.inertiaInterval);
+		this.RAFrunning = false;
 	}
 
 	self.updateFrames = function() {
