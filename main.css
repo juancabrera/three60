@@ -1,0 +1,33 @@
+.loading {
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -16px 0 0 -16px;
+	background: url(./images/loading.gif) no-repeat center center;
+}
+
+
+#hat {
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	top: 44%;
+	left: 50%;
+	margin: -250px 0 0 -250px;
+}
+
+a.gh {
+	font-family: "Georgia";
+	font-size: 26px;
+	color: #333;
+	background: url(./images/github-logo.png) no-repeat right center;
+	padding-right: 40px;
+	text-decoration: none;
+	display:inline-block;
+	position: absolute;
+	bottom: 10%;
+	left: 50%;
+	margin-left: -110px;
+}
