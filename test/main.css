@@ -6,7 +6,7 @@
 	top: 50%;
 	left: 50%;
 	margin: -16px 0 0 -16px;
-	/*background: url(../images/loading.gif) no-repeat center center;*/
+	background: url(./loading.gif) no-repeat center center;
 }
 
 .loading.hide {
