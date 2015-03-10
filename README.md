@@ -20,5 +20,5 @@ The first argument is the container id, the second is the path to the pool of im
 ### Demo
 [http://juancabrera.github.io/three60/](http://juancabrera.github.io/three60/)
 
-#### License
-[MIT License](http://opensource.org/licenses/MIT)
+### License
+MIT Copyright (c) [Juan Cabrera](http://juan.me)
