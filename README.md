@@ -1,13 +1,17 @@
 three60()
-=======
+=========
 A super simple Javascript method that creates a nice spinnable 360 with inertia. It works fine on mobile and desktop.
 
 ### Usage
-#### HTML
+#### HTML (image elements into container)
  ```html
 <div id="hat">
 	<div class="loading"></div>
 </div>
+ ```
+#### HTML (canvas)
+ ```html
+<canvas id="hat" width="500" height="500"></canvas>
  ```
 #### Javascript
  ```javascript
