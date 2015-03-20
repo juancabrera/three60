@@ -6,7 +6,8 @@ function three60() {
 
 	self.debug              = true;
 	self.container          = null;
-	self.containerObj       = null;
+	self.canvas       		= null;
+	self.canvasContext		= null;
 	self.containerName      = null;
 	self.fileName           = null;
 	self.totalFrames        = null;
@@ -23,14 +24,17 @@ function three60() {
 	self.inertiaDuration    = 0;
 	self.imageObjects       = [];
 	self.RAFrunning         = false;
+	self.imageFrame         = false;
 
 
 	// initialize
 	self.init = function(container, fileName, totalFrames) {
 		self.container = document.querySelector("#" + container);
-		self.containerObj = document.getElementById(container);
+		self.canvas = document.getElementById(container);
+		self.canvasContext = self.canvas.getContext("2d");
 		self.fileName = fileName;
 		self.totalFrames = totalFrames;
+		self.frameIndex = totalFrames;
 		self.containerName = container;
 		Math.easeOutQuad = function (t, b, c, d) {
 			return -c *(t/=d)*(t-2) + b;
@@ -63,6 +67,7 @@ function three60() {
 			self.imageObjects[i].onload = function() {
 				self.framesLoaded++;
 				if (self.framesLoaded === self.totalFrames) {
+					self.canvasContext.drawImage(this, 0, 0);
 					self.loadComplete();
 				}
 			};
@@ -71,33 +76,33 @@ function three60() {
 
 	self.loadComplete = function() {
 		var imgFrame;
-		self.container.querySelector(".loading").className = "hide";
-		for (var i = 1; i <= self.totalFrames; i++) {
-			imgFrame = document.createElement("img");
-			imgFrame.setAttribute("src", self.fileName.replace("{i}", i));
-			imgFrame.setAttribute("style", i === 1 ? "display: block;" : "display: none;");
-			imgFrame.setAttribute("data-index", i);
-			self.container.appendChild(imgFrame);
-		}
+		// self.container.querySelector(".loading").className = "hide";
+		// for (var i = 1; i <= self.totalFrames; i++) {
+		// 	imgFrame = document.createElement("img");
+		// 	imgFrame.setAttribute("src", self.fileName.replace("{i}", i));
+		// 	imgFrame.setAttribute("style", i === 1 ? "display: block;" : "display: none;");
+		// 	imgFrame.setAttribute("data-index", i);
+		// 	self.container.appendChild(imgFrame);
+		// }
 		self.attachHandlers();
 	};
 
 	self.attachHandlers = function() {
 		// handlers for mobile
 		if (typeof document.ontouchstart !== "undefined" && typeof document.ontouchmove !== "undefined" && typeof document.ontouchend !== "undefined" && typeof document.ontouchcancel !== "undefined") {
-			self.containerObj.addEventListener("touchstart", function(e) {
+			self.canvas.addEventListener("touchstart", function(e) {
 				e.preventDefault();
 				self.down(e.touches[0].pageX);
 			});
-			self.containerObj.addEventListener("touchmove", function(e) {
+			self.canvas.addEventListener("touchmove", function(e) {
 				e.preventDefault();
 				self.move(e.touches[0].pageX);
 			});
-			self.containerObj.addEventListener("touchend", function(e) {
+			self.canvas.addEventListener("touchend", function(e) {
 				e.preventDefault();
 				self.up();
 			});
-			self.containerObj.addEventListener("touchcancel", function(e) {
+			self.canvas.addEventListener("touchcancel", function(e) {
 				e.preventDefault();
 				self.up();
 			});
@@ -207,7 +212,10 @@ function three60() {
 	};
 
 	self.updateFrames = function() {
-		self.container.querySelector("img[data-index=\"" + self.lastFrameIndex + "\"]").style.display = "none";
-		self.container.querySelector("img[data-index=\"" + self.frameIndex + "\"]").style.display = "block";
+		self.imageFrame = new Image();
+		self.imageFrame.src = self.fileName.replace("{i}", self.frameIndex);
+		self.imageFrame.onload = function() {
+			self.canvasContext.drawImage(this, 0, 0);
+		}
 	};
 }
