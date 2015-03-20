@@ -57,6 +57,9 @@ function three60() {
 				window.setTimeout(callback, 1000 / 60);
 			};
 		})();
+
+		// TODO: add loader.
+
 		self.loadFrames();
 	};
 
@@ -76,14 +79,9 @@ function three60() {
 
 	self.loadComplete = function() {
 		var imgFrame;
-		// self.container.querySelector(".loading").className = "hide";
-		// for (var i = 1; i <= self.totalFrames; i++) {
-		// 	imgFrame = document.createElement("img");
-		// 	imgFrame.setAttribute("src", self.fileName.replace("{i}", i));
-		// 	imgFrame.setAttribute("style", i === 1 ? "display: block;" : "display: none;");
-		// 	imgFrame.setAttribute("data-index", i);
-		// 	self.container.appendChild(imgFrame);
-		// }
+
+		// TODO: remove loader.
+
 		self.attachHandlers();
 	};
 
@@ -124,7 +122,7 @@ function three60() {
 		self.container.addEventListener("mouseout", function(e) {
 			e.preventDefault();
 			var relatedTarget = ("relatedTarget" in e? e.relatedTarget : e.toElement);
-			if (relatedTarget.nodeName === "IMG" || relatedTarget.id === self.containerName) {
+			if (relatedTarget.id === self.containerName) {
 				return false;
 			}
 			self.up();
