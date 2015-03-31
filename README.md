@@ -11,8 +11,9 @@ A super simple Javascript method that creates a nice spinnable 360 with inertia.
  ```
 #### HTML (canvas)
  ```html
-<canvas id="hat" width="500" height="500"></canvas>
+<canvas id="hat"></canvas>
  ```
+Note: three60 will set the dimensions to the canvas element.
 #### Javascript
  ```javascript
 var hat;

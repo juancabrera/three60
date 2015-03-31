@@ -26,7 +26,6 @@ function three60() {
 	self.RAFrunning         = false;
 	self.imageFrame         = false;
 
-
 	// initialize
 	self.init = function(container, fileName, totalFrames) {
 		self.container = document.querySelector("#" + container);
@@ -59,7 +58,7 @@ function three60() {
 		})();
 
 		// TODO: add loader.
-
+		self.setCanvasDimension();
 		self.loadFrames();
 	};
 
@@ -74,6 +73,15 @@ function three60() {
 					self.loadComplete();
 				}
 			};
+		}
+	};
+
+	self.setCanvasDimension = function() {
+		var frame = new Image();
+		frame.src = self.fileName.replace("{i}", 1);
+		frame.onload = function() {
+			self.canvas.width = frame.width;
+			self.canvas.height = frame.height;
 		}
 	};
 
