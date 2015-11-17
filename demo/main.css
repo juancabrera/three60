@@ -1,0 +1,23 @@
+.loading {
+	display: block;
+	width: 32px;
+	height: 32px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -16px 0 0 -16px;
+	background: url(./loading.gif) no-repeat center center;
+}
+
+.loading.hide {
+	display: none;
+}
+
+#hat {
+	position: absolute;
+	width: 500px;
+	height: 500px;
+	top: 50%;
+	left: 50%;
+	margin: -250px 0 0 -250px;
+}
