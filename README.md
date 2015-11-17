@@ -3,13 +3,7 @@ three60()
 A super simple Javascript method that creates a smooth spinnable 360 with inertia for mobile and desktop.
 
 ### Usage
-#### HTML (image elements into container)
- ```html
-<div id="hat">
-	<div class="loading"></div>
-</div>
- ```
-#### HTML (canvas)
+#### HTML
  ```html
 <canvas id="hat"></canvas>
  ```
