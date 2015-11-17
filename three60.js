@@ -80,7 +80,6 @@ function three60() {
     var imgFrame;
 
     // TODO: remove loader.
-
     self.attachHandlers();
   };
 
