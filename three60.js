@@ -125,9 +125,11 @@ function three60() {
     self.container.addEventListener("mouseout", function(e) {
       e.preventDefault();
       var relatedTarget = ("relatedTarget" in e? e.relatedTarget : e.toElement);
-      /*if (relatedTarget.id === self.containerName) {
-       return false;
-       }*/
+      if (relatedTarget.id) {
+        if (relatedTarget.id === self.containerName) {
+          return false;
+        }
+      }
       self.up();
     });
   };
