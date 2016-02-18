@@ -31,7 +31,7 @@ function three60() {
     self.canvas = document.getElementById(container);
     self.canvasContext = self.canvas.getContext("2d");
     self.fileName = fileName;
-    self.totalFrames = totalFrames;
+    self.totalFrames = totalFrames - 1;
     self.frameIndex = totalFrames;
     self.containerName = container;
     Math.easeOutCirc = function(b, d, a, c) {
@@ -54,9 +54,14 @@ function three60() {
   };
 
   self.loadFrames = function() {
-    for (var i = 1; i <= self.totalFrames; i++) {
+    for (var i = 0; i <= self.totalFrames; i++) {
       self.imageObjects[i] = new Image();
-      self.imageObjects[i].src = self.fileName.replace("{i}", i);
+
+      if(i <= 9) {
+        self.imageObjects[i].src = self.fileName.replace("{i}", "0" + i.toString());
+      }else {
+        self.imageObjects[i].src = self.fileName.replace("{i}", i);
+      }
       self.imageObjects[i].onload = function() {
         self.framesLoaded++;
         if (self.framesLoaded === self.totalFrames) {
@@ -69,7 +74,7 @@ function three60() {
 
   self.setCanvasDimension = function() {
     var frame = new Image();
-    frame.src = self.fileName.replace("{i}", 1);
+    frame.src = self.fileName.replace("{i}", '00');
     frame.onload = function() {
       self.canvas.width = frame.width;
       self.canvas.height = frame.height;
@@ -120,8 +125,10 @@ function three60() {
     self.container.addEventListener("mouseout", function(e) {
       e.preventDefault();
       var relatedTarget = ("relatedTarget" in e? e.relatedTarget : e.toElement);
-      if (relatedTarget.id === self.containerName) {
-        return false;
+      if (relatedTarget) {
+        if (relatedTarget.id === self.containerName) {
+          return false;
+        }
       }
       self.up();
     });
@@ -209,8 +216,13 @@ function three60() {
 
   self.updateFrames = function() {
     self.imageFrame = new Image();
-    self.imageFrame.src = self.fileName.replace("{i}", self.frameIndex);
+    if(self.frameIndex <= 9) {
+      self.imageFrame.src = self.fileName.replace("{i}", "0" + self.frameIndex);
+    } else {
+      self.imageFrame.src = self.fileName.replace("{i}", self.frameIndex);
+    }
     self.imageFrame.onload = function() {
+      self.canvasContext.clearRect(0, 0, self.canvas.width, self.canvas.height);
       self.canvasContext.drawImage(this, 0, 0);
     }
   };
