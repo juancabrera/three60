@@ -1,4 +1,5 @@
-function three60() {
+var three60 = function three60() {
+
   "use strict";
 
   var self = this;
@@ -226,4 +227,6 @@ function three60() {
       self.canvasContext.drawImage(this, 0, 0);
     }
   };
-}
+};
+
+module.exports = three60;
