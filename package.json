@@ -1,0 +1,19 @@
+{
+  "name": "three60",
+  "version": "1.0.2",
+  "description": "360 degree image viewer",
+  "main": "three60.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codeculturehq/three60.git"
+  },
+  "author": "codeculture",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/codeculturehq/three60/issues"
+  },
+  "homepage": "https://github.com/codeculturehq/three60#readme"
+}
